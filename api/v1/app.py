@@ -5,12 +5,16 @@
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
+from flask_cors import CORS
+
 import os
 host = os.getenv('HBNB_API_HOST')
 port = os.getenv('HBNB_API_PORT')
 
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 app.register_blueprint(app_views)
 
 
