@@ -10,7 +10,7 @@ from models import storage
 from models.state import State
 
 
-@app_views.route("/states/", methods=['GET'])
+@app_views.route("/states/", strict_slashes=False, methods=['GET'])
 def index():
     states = storage.all(State)
     states_dict = []
@@ -19,7 +19,7 @@ def index():
     return jsonify(states_dict)
 
 
-@app_views.route("/states/<state_id>", methods=['GET'])
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=['GET'])
 def get(state_id):
     if storage.get(State, state_id) is None:
         return {"error": "Not found"}, 404
@@ -27,7 +27,7 @@ def get(state_id):
     return jsonify(storage.get(State, state_id).to_dict())
 
 
-@app_views.route("/states/<state_id>", methods=['DELETE'])
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=['DELETE'])
 def delete(state_id):
     if storage.get(State, state_id) is None:
         return {"error": "Not found"}, 404
@@ -37,7 +37,7 @@ def delete(state_id):
     return jsonify({}), 200
 
 
-@app_views.route("/states", methods=['POST'])
+@app_views.route("/states", strict_slashes=False, methods=['POST'])
 def store():
     if not request.is_json:
         return {"error": "Not a Json"}, 400
@@ -52,7 +52,7 @@ def store():
     return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route("/states/<state_id>", methods=['PUT'])
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=['PUT'])
 def update(state_id):
     state = storage.get(State, state_id)
     data = request.get_json()
