@@ -11,7 +11,7 @@ from models.state import State
 
 
 @app_views.route("/states/", strict_slashes=False, methods=['GET'])
-def index():
+def states_index():
     states = storage.all(State)
     states_dict = []
     for state in states:
@@ -20,7 +20,7 @@ def index():
 
 
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=['GET'])
-def get(state_id):
+def states_get(state_id):
     if storage.get(State, state_id) is None:
         return {"error": "Not found"}, 404
 
@@ -29,7 +29,7 @@ def get(state_id):
 
 @app_views.route("/states/<state_id>",
                  strict_slashes=False, methods=['DELETE'])
-def delete(state_id):
+def states_delete(state_id):
     if storage.get(State, state_id) is None:
         return {"error": "Not found"}, 404
 
@@ -39,7 +39,7 @@ def delete(state_id):
 
 
 @app_views.route("/states", strict_slashes=False, methods=['POST'])
-def store():
+def states_store():
     if not request.is_json:
         return {"error": "Not a Json"}, 400
 
@@ -54,7 +54,7 @@ def store():
 
 
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=['PUT'])
-def update(state_id):
+def states_update(state_id):
     state = storage.get(State, state_id)
     data = request.get_json()
 
