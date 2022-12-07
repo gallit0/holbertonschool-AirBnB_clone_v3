@@ -47,9 +47,6 @@ def places_delete(place_id):
 @app_views.route("/cities/<city_id>/places",
                  strict_slashes=False, methods=['POST'])
 def places_store(city_id):
-
-    abort(404)
-
     city = storage.get(City, city_id)
 
     if city is None:
