@@ -16,7 +16,7 @@ from models.place import Place
                  strict_slashes=False, methods=['GET'])
 def places_index(city_id):
     if storage.get(City, city_id) is None:
-        abort(404)
+        return {"error": "Not found"}, 404
 
     places = storage.get(City, city_id).places
     places_dict = []
@@ -28,7 +28,7 @@ def places_index(city_id):
 @app_views.route("/places/<place_id>", strict_slashes=False, methods=['GET'])
 def places_get(place_id):
     if storage.get(Place, place_id) is None:
-        abort(404)
+        return {"error": "Not found"}, 404
 
     return jsonify(storage.get(Place, place_id).to_dict())
 
@@ -37,7 +37,7 @@ def places_get(place_id):
                  strict_slashes=False, methods=['DELETE'])
 def places_delete(place_id):
     if storage.get(Place, place_id) is None:
-        abort(404)
+        return {"error": "Not found"}, 404
 
     storage.get(Place, place_id).delete()
     storage.save()
@@ -50,7 +50,7 @@ def places_store(city_id):
     city = storage.get(City, city_id)
 
     if city is None:
-        abort(404)
+        return {"error": "Not found"}, 404
 
     if not request.is_json:
         return {"error": "Not a Json"}, 400
@@ -61,10 +61,10 @@ def places_store(city_id):
         return {"error": "Missing name"}, 400
 
     if "user_id" not in new_place:
-        return {"error": "Missing name"}, 400
-    
+        return {"error": "Missing user_id"}, 400
+
     if storage.get(User, new_place['user_id']) is None:
-        abort(404)
+        return {"error": "Not found"}, 404
 
     new_place['city_id'] = city_id
 
@@ -79,7 +79,7 @@ def places_update(place_id):
     data = request.get_json()
 
     if place is None:
-        abort(404)
+        return {"error": "Not found"}, 404
 
     if not request.is_json:
         return {"error": "Not a Json"}, 400
