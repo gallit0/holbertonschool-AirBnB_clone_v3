@@ -19,20 +19,20 @@ def index():
     return states_dict
 
 
-@app_views.route("/states/<id>", methods=['GET'])
-def get(id):
-    if storage.get(State, id) is None:
+@app_views.route("/states/<state_id>", methods=['GET'])
+def get(state_id):
+    if storage.get(State, state_id) is None:
         return {"error": "Not found"}, 404
 
-    return storage.get(State, id).to_dict()
+    return storage.get(State, state_id).to_dict()
 
 
-@app_views.route("/states/<id>", methods=['DELETE'])
-def delete(id):
-    if storage.get(State, id) is None:
+@app_views.route("/states/<state_id>", methods=['DELETE'])
+def delete(state_id):
+    if storage.get(State, state_id) is None:
         return {"error": "Not found"}, 404
 
-    storage.get(State, id).delete()
+    storage.get(State, state_id).delete()
     storage.save()
     return {}, 200
 
@@ -52,9 +52,9 @@ def store():
     return new_state.to_dict(), 201
 
 
-@app_views.route("/states/<id>", methods=['PUT'])
-def update(id):
-    state = storage.get(State, id)
+@app_views.route("/states/<state_id>", methods=['PUT'])
+def update(state_id):
+    state = storage.get(State, state_id)
     data = request.get_json()
 
     if state is None:
