@@ -19,7 +19,8 @@ def amenities_index():
     return jsonify(amenities_dict)
 
 
-@app_views.route("/amenities/<amenity_id>", strict_slashes=False, methods=['GET'])
+@app_views.route("/amenities/<amenity_id>",
+                 strict_slashes=False, methods=['GET'])
 def amenities_get(amenity_id):
     if storage.get(Amenity, amenity_id) is None:
         return {"error": "Not found"}, 404
@@ -53,7 +54,8 @@ def amenities_store():
     return jsonify(new_amenity.to_dict()), 201
 
 
-@app_views.route("/amenities/<amenity_id>", strict_slashes=False, methods=['PUT'])
+@app_views.route("/amenities/<amenity_id>",
+                 strict_slashes=False, methods=['PUT'])
 def amenities_update(amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     data = request.get_json()
