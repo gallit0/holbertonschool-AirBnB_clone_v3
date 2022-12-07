@@ -50,7 +50,7 @@ def places_store(city_id):
     city = storage.get(City, city_id)
 
     if city is None:
-        return {"error": "Not found"}, 404
+        abort(404)
 
     if not request.is_json:
         return {"error": "Not a Json"}, 400
@@ -64,7 +64,7 @@ def places_store(city_id):
         return {"error": "Missing user_id"}, 400
 
     if storage.get(User, new_place['user_id']) is None:
-        return {"error": "Not found"}, 404
+        abort(404)
 
     new_place['city_id'] = city_id
 
