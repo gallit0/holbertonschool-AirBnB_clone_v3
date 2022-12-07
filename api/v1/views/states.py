@@ -24,6 +24,7 @@ def get(state_id):
     if storage.get(State, state_id) is None:
         return {"error": "Not found"}, 404
 
+    return {}
     return storage.get(State, state_id).to_dict()
 
 
