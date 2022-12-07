@@ -8,6 +8,7 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 
+
 class User(BaseModel, Base):
     """Representation of a user """
     if models.storage_t == 'db':
@@ -32,7 +33,7 @@ class User(BaseModel, Base):
         @hybrid_property
         def password(self):
             return self.__password
-        
+
         @password.setter
         def password(self, value):
             self.__password = hashlib.md5(value.encode()).hexdigest()
@@ -40,7 +41,7 @@ class User(BaseModel, Base):
         @property
         def password(self):
             return self.__password
-        
+
         @password.setter
         def password(self, value):
             self.__password = hashlib.md5(value.encode()).hexdigest()
