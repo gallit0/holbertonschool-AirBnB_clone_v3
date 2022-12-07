@@ -5,7 +5,7 @@
 
 
 from api.v1.views import app_views
-from flask import request, jsonify
+from flask import request
 from models import storage
 from models.state import State
 
@@ -16,7 +16,7 @@ def index():
     states_dict = []
     for state in states:
         states_dict.append(states[state].to_dict())
-    return jsonify(states_dict)
+    return states_dict
 
 
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=['GET'])
@@ -24,17 +24,18 @@ def get(state_id):
     if storage.get(State, state_id) is None:
         return {"error": "Not found"}, 404
 
-    return jsonify(storage.get(State, state_id).to_dict())
+    return storage.get(State, state_id).to_dict()
 
 
-@app_views.route("/states/<state_id>", strict_slashes=False, methods=['DELETE'])
+@app_views.route("/states/<state_id>",
+                 strict_slashes=False, methods=['DELETE'])
 def delete(state_id):
     if storage.get(State, state_id) is None:
         return {"error": "Not found"}, 404
 
     storage.get(State, state_id).delete()
     storage.save()
-    return jsonify({}), 200
+    return {}, 200
 
 
 @app_views.route("/states", strict_slashes=False, methods=['POST'])
@@ -49,7 +50,7 @@ def store():
 
     new_state = State(**new_state)
     new_state.save()
-    return jsonify(new_state.to_dict()), 201
+    return new_state.to_dict(), 201
 
 
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=['PUT'])
@@ -74,4 +75,4 @@ def update(state_id):
             setattr(state, key, data[key])
 
     state.save()
-    return jsonify(state.to_dict()), 202
+    return state.to_dict(), 200
