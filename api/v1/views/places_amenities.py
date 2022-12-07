@@ -53,7 +53,7 @@ def places_amenities_link(place_id, amenity_id):
     if place is None:
         abort(404)
     if amenity in place.amenities:
-        abort(200)
+        return jsonify(amenity.to_dict()), 200
 
     place.amenities.append(amenity)
     storage.save()
