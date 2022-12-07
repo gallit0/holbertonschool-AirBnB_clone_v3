@@ -10,7 +10,7 @@ from models import storage
 from models.state import State
 
 
-@app_views.route("/states", methods=['GET'])
+@app_views.route("/states/", methods=['GET'])
 def index():
     states = storage.all(State)
     states_dict = []
